@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NES PARFUM - Parfüm Siparişi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">🌸 NES PARFUM</h1>
+            <p class="tagline">En Güzel Kokular</p>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <!-- ADMIN PANELI (Gizli - F12 ile açılabilir) -->
+        <section id="adminPanel" class="admin-panel hidden">
+            <h2>📦 Ürün Yönetimi</h2>
+            <div class="form-group">
+                <input type="text" id="productName" placeholder="Parfüm Adı" required>
+            </div>
+            <div class="form-group">
+                <input type="number" id="productPrice" placeholder="Fiyat (₺)" required>
+            </div>
+            <div class="form-group">
+                <input type="file" id="productImage" accept="image/*" required>
+            </div>
+            <button class="btn btn-add" onclick="addProduct()">Ürünü Ekle</button>
+            <hr>
+        </section>
+
+        <!-- ÜRÜNLER (Müşteri Görüşü) -->
+        <section class="products-section">
+            <h2>Parfüm Kataloğu</h2>
+            <div id="productsList" class="products-grid">
+                <!-- Ürünler buraya gelecek -->
+            </div>
+        </section>
+
+        <!-- SEPETİ GÖSTER -->
+        <button class="btn btn-cart" onclick="toggleCart()">
+            🛒 Sepet (<span id="cartCount">0</span>)
+        </button>
+
+        <!-- SEPETİ -->
+        <section id="cartSection" class="cart-section hidden">
+            <h2>🛒 Siparişiniz</h2>
+            <div id="cartItems" class="cart-items">
+                <!-- Sepet ürünleri buraya gelecek -->
+            </div>
+            <div class="cart-summary">
+                <h3>Toplam Fiyat: <span id="totalPrice">0₺</span></h3>
+            </div>
+            <button class="btn btn-prepare" onclick="prepareOrder()">Siparişi Hazırla</button>
+        </section>
+
+        <!-- SİPARİŞ ONAYLAMA -->
+        <section id="confirmSection" class="confirm-section hidden">
+            <h2>✅ Siparişi Onayla</h2>
+            <div id="orderReview" class="order-review">
+                <!-- Sipariş özeti buraya gelecek -->
+            </div>
+            <div class="form-group">
+                <input type="text" id="customerName" placeholder="Adınız" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="customerEmail" placeholder="E-mail" required>
+            </div>
+            <div class="form-group">
+                <input type="tel" id="customerPhone" placeholder="Telefon" required>
+            </div>
+            <button class="btn btn-confirm" onclick="confirmOrder()">Siparişi Onayla</button>
+            <button class="btn btn-back" onclick="goBack()">Geri Dön</button>
+        </section>
+
+        <!-- SİPARİŞ BAŞARILI -->
+        <section id="successSection" class="success-section hidden">
+            <h2>🎉 Siparişiniz Alındı!</h2>
+            <p>Siparişiniz başarıyla oluşturuldu. En kısa sürede hazırlanacak ve size ulaştırılacaktır.</p>
+            <p><strong>Sipariş No:</strong> <span id="orderNumber"></span></p>
+            <button class="btn btn-new" onclick="newOrder()">Yeni Sipariş Ver</button>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <h3>📞 İletişim Bilgileri</h3>
+            <p>
+                <strong>Web:</strong> <a href="https://nes-parfum.com" target="_blank">NES PARFUM</a>
+            </p>
+            <p>
+                <strong>WhatsApp:</strong> <a href="https://wa.me/905551234567" target="_blank">+90 555 123 45 67</a>
+            </p>
+            <p>&copy; 2026 NES PARFUM. Tüm Hakları Saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- ADMIN GİRİŞ BUTONU (Sağ Altta) -->
+    <div class="admin-toggle">
+        <button onclick="toggleAdmin()" title="Admin Paneli">⚙️</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
