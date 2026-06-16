@@ -323,7 +323,7 @@
             }
 
             // *** BURAYA KENDİ WHATSAPP NUMARANI YAZ ***
-            const adminTelefon = "905000000000"; 
+            const adminTelefon = "905010074171"; 
 
             let orderDetails = [];
             let total = 0;
@@ -361,7 +361,7 @@
                 document.getElementById('admin-toggle-btn').style.display = 'none';
                 document.getElementById('admin-view').style.display = 'block';
                 document.getElementById('admin-password').value = '';
-                renderAdminProducts(); // Giriş yapınca ürünleri listele
+                renderAdminProducts(); 
             } else {
                 alert('Hatalı Şifre!');
             }
@@ -404,15 +404,14 @@
                 products = products.filter(p => p.id !== id);
                 localStorage.setItem('nes_products', JSON.stringify(products));
                 
-                // Ürün silindiyse sepette kalan hayaletleri de temizle
                 if (cart[id]) {
                     delete cart[id];
                     updateCartCount();
                 }
 
                 alert("Ürün başarıyla silindi!");
-                renderAdminProducts(); // Listeyi güncelle
-                renderProducts(); // Mağazayı da güncelle
+                renderAdminProducts(); 
+                renderProducts(); 
             }
         }
 
@@ -442,7 +441,7 @@
             document.getElementById('new-prod-price').value = '';
             document.getElementById('new-prod-img').value = '';
             
-            renderAdminProducts(); // Yeni ürün eklenince admin listesini de güncelle
+            renderAdminProducts(); 
             renderProducts(); 
         }
 
