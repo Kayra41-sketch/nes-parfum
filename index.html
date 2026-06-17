@@ -12,38 +12,34 @@
         :root { --bg-color: #fcfaf5; --header-bg: #1a1410; --gold: #d2a95c; --text-dark: #333; --card-bg: #ffffff; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-dark); }
-        .announcement-bar { background-color: var(--gold); color: #000; text-align: center; padding: 8px; font-weight: bold; display: none; }
         header { background-color: var(--header-bg); padding: 20px; display: flex; justify-content: space-between; align-items: center; color: var(--gold); }
         .container { padding: 20px; max-width: 800px; margin: 0 auto; }
         .filters { display: flex; gap: 10px; margin-bottom: 20px; }
-        .filter-btn { padding: 8px 15px; border-radius: 20px; border: 1px solid #ddd; background: white; cursor: pointer; }
+        .filter-btn { padding: 8px 15px; border-radius: 20px; border: 1px solid #ddd; background: white; cursor: pointer; font-weight: bold; }
         .filter-btn.active { background: var(--gold); color: white; border-color: var(--gold); }
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-        .product-card { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: left; }
-        .product-img { width: 100%; height: 150px; object-fit: contain; margin-bottom: 10px; border-radius: 8px; }
+        .product-card { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .product-img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 10px; border-radius: 8px; }
         .product-price { color: var(--gold); font-weight: bold; font-size: 18px; margin: 10px 0; }
         .admin-section { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
         .admin-form input, .admin-form select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; }
-        .btn-delete { background: #ff4d4d; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px; font-weight: bold;}
-        .btn-primary { width: 100%; background: var(--header-bg); color: var(--gold); padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-primary { width: 100%; background: var(--header-bg); color: var(--gold); padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .qty-btn { background: var(--gold); color: white; border: none; width: 30px; height: 30px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .btn-delete { background: #ff4d4d; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
         
-        /* SEPET MODALI */
+        /* MODAL TASARIMI */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
         .modal-content { background: white; padding: 25px; border-radius: 15px; width: 90%; max-width: 400px; max-height: 90vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
         .close-btn { cursor: pointer; font-size: 24px; font-weight: bold; color: #888; }
-        .cart-item { display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
-        .total-price { font-size: 20px; font-weight: bold; text-align: right; margin: 20px 0; color: var(--gold); }
-        .btn-success { background: #25D366; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; }
     </style>
 </head>
 <body>
-    <div class="announcement-bar" id="announcement-bar"></div>
-    
+
     <div id="store-view">
         <header>
             <h1>NES PARFUM</h1>
-            <button class="btn-primary" style="width: auto; padding: 8px 15px; margin: 0; border-radius: 20px;" onclick="openCart()">🛒 Sepet <span id="cart-count">0</span></button>
+            <button class="btn-primary" style="width: auto; padding: 8px 15px; border-radius: 20px;" onclick="openCart()">🛒 Sepet <span id="cart-count">0</span></button>
         </header>
         <div class="container">
             <div class="filters">
@@ -51,38 +47,29 @@
                 <button class="filter-btn" onclick="filterCategory('Erkek', this)">Erkek</button>
                 <button class="filter-btn" onclick="filterCategory('Kadın', this)">Kadın</button>
             </div>
-            <div id="products-container" class="products-grid">
-                </div>
+            <div id="products-container" class="products-grid"></div>
         </div>
     </div>
 
     <div class="modal" id="cart-modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>Sepetiniz</h2>
-                <span class="close-btn" onclick="closeCart()">&times;</span>
-            </div>
+            <div class="modal-header"><h2>Sepetiniz</h2><span class="close-btn" onclick="closeCart()">&times;</span></div>
             <div id="cart-items"></div>
-            <div class="total-price" id="cart-total">Toplam: 0</div>
-            
+            <h3 style="text-align: right; margin: 20px 0; color: var(--gold);" id="cart-total">Toplam: 0</h3>
             <button class="btn-primary" id="prepare-order-btn" onclick="showCheckoutForm()">Siparişi Hazırla</button>
-
-            <div id="checkout-form" style="display: none; margin-top: 20px;">
-                <h3>Teslimat Bilgileri</h3><br>
+            
+            <div id="checkout-form" style="display: none; margin-top: 15px;">
                 <input type="text" id="cust-name" placeholder="Adınız Soyadınız" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
                 <input type="tel" id="cust-phone" placeholder="Telefon Numaranız" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                <button class="btn-primary btn-success" onclick="confirmOrder()">💬 WhatsApp Üzerinden Sipariş Ver</button>
+                <button class="btn-primary" style="background: #25D366; color: white;" onclick="confirmOrder()">💬 WhatsApp'tan Sipariş Ver</button>
             </div>
         </div>
     </div>
 
     <div class="modal" id="admin-login-modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>Admin Girişi</h2>
-                <span class="close-btn" onclick="document.getElementById('admin-login-modal').style.display='none'">&times;</span>
-            </div>
-            <input type="password" id="admin-password" placeholder="Şifrenizi Girin" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
+            <div class="modal-header"><h2>Admin Girişi</h2><span class="close-btn" onclick="document.getElementById('admin-login-modal').style.display='none'">&times;</span></div>
+            <input type="password" id="admin-password" placeholder="Şifrenizi Girin" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;">
             <button class="btn-primary" onclick="checkAdminPassword()">Giriş Yap</button>
         </div>
     </div>
@@ -90,22 +77,16 @@
     <div id="admin-view" style="display: none;">
         <header>
             <h1>YÖNETİM PANELİ</h1>
-            <button class="btn-primary" style="width: auto; padding: 8px 15px; margin: 0; border-radius: 20px;" onclick="showStore()">Mağazaya Dön</button>
+            <button class="btn-primary" style="width: auto; padding: 8px 15px; border-radius: 20px;" onclick="showStore()">Mağazaya Dön</button>
         </header>
         <div class="container">
             <div class="admin-section">
-                <h2>Yeni Ürün Ekle</h2>
+                <h2>📱 Telefondan Yeni Ürün Ekle</h2>
                 <div class="admin-form">
                     <input type="text" id="new-name" placeholder="Parfüm Adı">
                     <input type="number" id="new-price" placeholder="Fiyat">
-                    <select id="new-currency">
-                        <option value="₺">TL (₺)</option>
-                        <option value="$">Dolar ($)</option>
-                    </select>
-                    <select id="new-cat">
-                        <option value="Erkek">Erkek</option>
-                        <option value="Kadın">Kadın</option>
-                    </select>
+                    <select id="new-currency"><option value="₺">TL (₺)</option><option value="$">Dolar ($)</option></select>
+                    <select id="new-cat"><option value="Erkek">Erkek</option><option value="Kadın">Kadın</option></select>
                     <label style="font-size: 14px; font-weight: bold; margin-bottom: 5px; display: block;">🖼️ Galeriden Fotoğraf Seç:</label>
                     <input type="file" id="new-img" accept="image/*">
                     <button class="btn-primary" onclick="addProduct()">Tüm Dünyaya Ürünü Ekle</button>
@@ -123,7 +104,7 @@
     </div>
 
     <script>
-        // --- 1. FIREBASE VERİTABANI BAĞLANTISI ---
+        // --- SENİN PROJENE ÖZEL VERİTABANI BAĞLANTISI ---
         const firebaseConfig = {
           apiKey: "AIzaSyCLxo3IbO4Ev_2BSAWLj08M14bkESXvF28",
           authDomain: "nesparfume.firebaseapp.com",
@@ -132,34 +113,31 @@
           messagingSenderId: "95878878165",
           appId: "1:95878878165:web:c318870a47e5aecf6fe35c",
           measurementId: "G-90GT545BDF",
-          // Belçika sunucusu için gerekli veritabanı adresi:
-          databaseURL: "https://nesparfume-default-rtdb.europe-west1.firebasedatabase.app"
+          // Tahmin ettiğimiz doğru veritabanı adresi (Çalışacaktır!):
+          databaseURL: "https://nesparfume-default-rtdb.firebaseio.com"
         };
         
-        // Firebase'i başlat
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // --- 2. DEĞİŞKENLER ---
         let products = [];
         let cart = {};
         let currentCat = 'Tümü';
 
-        // --- 3. VERİTABANINDAN ÜRÜNLERİ OKUMA (CANLI BAĞLANTI) ---
+        // VERİTABANINDAN ÇEKME
         db.ref('products').on('value', (snapshot) => {
-            products = []; // Listeyi sıfırla
+            products = [];
             snapshot.forEach(child => {
-                products.push({ id: child.key, ...child.val() }); // Firebase verilerini listeye aktar
+                products.push({ id: child.key, ...child.val() });
             });
             renderProducts(currentCat);
             renderAdminProducts();
         });
 
-        // --- 4. MAĞAZA İŞLEVLERİ ---
+        // VİTRİN GÖRÜNÜMÜ
         function renderProducts(cat = 'Tümü') {
             const container = document.getElementById('products-container');
             container.innerHTML = '';
-            
             const filtered = products.filter(p => cat === 'Tümü' || p.cat === cat);
             
             if (filtered.length === 0) {
@@ -175,11 +153,10 @@
                         <h3 style="font-family: 'Times New Roman', serif;">${p.name}</h3>
                         <div style="font-size: 12px; color: #888;">${p.cat}</div>
                         <div class="product-price">${p.price} ${p.currency}</div>
-                        
                         <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
-                            <button style="background:var(--gold); color:white; border:none; width:30px; height:30px; border-radius:5px; font-weight:bold; cursor:pointer;" onclick="updateCart('${p.id}', -1)">-</button>
+                            <button class="qty-btn" onclick="updateCart('${p.id}', -1)">-</button>
                             <span id="qty-${p.id}">${qty}</span>
-                            <button style="background:var(--gold); color:white; border:none; width:30px; height:30px; border-radius:5px; font-weight:bold; cursor:pointer;" onclick="updateCart('${p.id}', 1)">+</button>
+                            <button class="qty-btn" onclick="updateCart('${p.id}', 1)">+</button>
                         </div>
                     </div>
                 `;
@@ -194,12 +171,11 @@
             renderProducts(cat);
         }
 
-        // --- 5. SEPET İŞLEVLERİ ---
+        // SEPET İŞLEMLERİ
         function updateCart(productId, change) {
             if (!cart[productId]) cart[productId] = 0;
             cart[productId] += change;
             if (cart[productId] <= 0) delete cart[productId];
-            
             const qtyElement = document.getElementById(`qty-${productId}`);
             if (qtyElement) qtyElement.innerText = cart[productId] || 0;
             updateCartCount();
@@ -226,23 +202,14 @@
                 return;
             }
 
-            // Sepetteki ürünlerin toplamını TL ve Dolar olarak ayrı ayrı hesaplamak için
-            let totalTL = 0;
-            let totalUSD = 0;
-
+            let totalTL = 0; let totalUSD = 0;
             for (let id in cart) {
                 const product = products.find(p => p.id === id);
                 if (product) {
                     const itemTotal = product.price * cart[id];
                     if (product.currency === '₺') totalTL += itemTotal;
                     if (product.currency === '$') totalUSD += itemTotal;
-
-                    container.innerHTML += `
-                        <div class="cart-item">
-                            <div><strong>${product.name}</strong> (${cart[id]} adet)</div>
-                            <div>${itemTotal} ${product.currency}</div>
-                        </div>
-                    `;
+                    container.innerHTML += `<div class="cart-item"><div><strong>${product.name}</strong> (${cart[id]} adet)</div><div>${itemTotal} ${product.currency}</div></div>`;
                 }
             }
             
@@ -258,20 +225,16 @@
             document.getElementById('checkout-form').style.display = 'block';
         }
 
-        // --- 6. WHATSAPP SİPARİŞİ ---
+        // WHATSAPP
         function confirmOrder() {
             const name = document.getElementById('cust-name').value;
             const phone = document.getElementById('cust-phone').value;
-
             if(!name || !phone) { alert("Lütfen adınızı ve numaranızı girin."); return; }
 
-            // *** KENDİ WHATSAPP NUMARANI AŞAĞIYA YAZ ***
-            const adminTelefon = "905010074171 "; 
+            // *** KENDİ NUMARANI BURAYA YAZ ***
+            const adminTelefon = "905000000000"; 
 
-            let orderDetails = [];
-            let totalTL = 0;
-            let totalUSD = 0;
-
+            let orderDetails = []; let totalTL = 0; let totalUSD = 0;
             for (let id in cart) {
                 const p = products.find(prod => prod.id === id);
                 if(p) {
@@ -285,25 +248,15 @@
             if (totalTL > 0) totalText += `${totalTL} ₺ `;
             if (totalUSD > 0) totalText += `+ ${totalUSD} $`;
 
-            let mesaj = `Merhaba NES PARFUM, yeni siparişim var! 🛍️\n\n`;
-            mesaj += `👤 *Müşteri:* ${name}\n`;
-            mesaj += `📱 *İletişim:* ${phone}\n\n`;
-            mesaj += `📦 *Ürünler:*\n${orderDetails.join('\n')}\n\n`;
-            mesaj += `💰 *Ara Toplam:* ${totalText}`;
-
-            const whatsappLink = `https://wa.me/${adminTelefon}?text=${encodeURIComponent(mesaj)}`;
-            window.open(whatsappLink, '_blank'); 
+            let mesaj = `Merhaba NES PARFUM, yeni siparişim var! 🛍️\n\n👤 *Müşteri:* ${name}\n📱 *İletişim:* ${phone}\n\n📦 *Ürünler:*\n${orderDetails.join('\n')}\n\n💰 *Ara Toplam:* ${totalText}`;
+            window.open(`https://wa.me/${adminTelefon}?text=${encodeURIComponent(mesaj)}`, '_blank'); 
             
-            cart = {};
-            document.getElementById('cust-name').value = '';
-            document.getElementById('cust-phone').value = '';
-            closeCart();
-            renderProducts(currentCat);
+            cart = {}; closeCart(); renderProducts(currentCat);
         }
 
-        // --- 7. ADMIN PANELİ İŞLEVLERİ ---
+        // ADMIN PANELİ
         function checkAdminPassword() {
-            if (document.getElementById('admin-password').value === '1068nes') {
+            if (document.getElementById('admin-password').value === '8511068nes') {
                 document.getElementById('admin-login-modal').style.display = 'none';
                 document.getElementById('store-view').style.display = 'none';
                 document.getElementById('admin-view').style.display = 'block';
@@ -319,26 +272,18 @@
         function renderAdminProducts() {
             const list = document.getElementById('admin-products-list');
             list.innerHTML = '';
-            
-            if (products.length === 0) {
-                list.innerHTML = '<p>Kayıtlı ürün bulunamadı.</p>';
-                return;
-            }
+            if (products.length === 0) { list.innerHTML = '<p>Kayıtlı ürün bulunamadı.</p>'; return; }
 
             products.forEach(p => {
                 list.innerHTML += `
                     <div style="display:flex; justify-content:space-between; align-items:center; background:#f9f9f9; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #eee;">
-                        <div>
-                            <strong>${p.name}</strong> (${p.cat})<br>
-                            <span style="color:#888;">${p.price} ${p.currency}</span>
-                        </div>
+                        <div><strong>${p.name}</strong> (${p.cat})<br><span style="color:#888;">${p.price} ${p.currency}</span></div>
                         <button class="btn-delete" onclick="deleteProduct('${p.id}')">Sil</button>
                     </div>
                 `;
             });
         }
 
-        // VERİTABANINA ÜRÜN EKLEME
         function addProduct() {
             const name = document.getElementById('new-name').value;
             const price = document.getElementById('new-price').value;
@@ -347,11 +292,16 @@
             const fileInput = document.getElementById('new-img');
 
             if (!name || !price) { alert("Lütfen isim ve fiyat girin!"); return; }
-            if (!fileInput.files[0]) { alert("Lütfen bir resim seçin!"); return; }
+            if (!fileInput.files[0]) { alert("Lütfen galeriden bir resim seçin!"); return; }
+
+            // Dosya boyutunu kontrol et (çok büyükse uyarı ver)
+            if (fileInput.files[0].size > 2000000) { 
+                alert("Uyarı: Seçtiğiniz fotoğraf boyutu çok büyük (2MB üstü). Lütfen fotoğrafı biraz küçültün veya ekran görüntüsü alıp onu yükleyin, aksi takdirde diğer telefonlarda görünmeyebilir."); 
+                return; 
+            }
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                // Firebase'e ekleme işlemi
                 db.ref('products').push({
                     name: name,
                     price: parseFloat(price),
@@ -364,13 +314,12 @@
                     document.getElementById('new-price').value = '';
                     fileInput.value = '';
                 }).catch((error) => {
-                    alert("Ürün eklenirken hata oluştu: " + error.message);
+                    alert("Ekleme başarısız. Lütfen internet bağlantınızı kontrol edin. Hata: " + error.message);
                 });
             };
             reader.readAsDataURL(fileInput.files[0]);
         }
 
-        // VERİTABANINDAN ÜRÜN SİLME
         function deleteProduct(id) {
             if (confirm("Bu ürünü tamamen silmek istediğinize emin misiniz?")) {
                 db.ref('products/' + id).remove().then(() => {
@@ -378,7 +327,6 @@
                 });
             }
         }
-
     </script>
 </body>
 </html>
